@@ -76,7 +76,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     onPressed: () async {
                       context.pushNamed('CardTestsList');
                     },
-                    text: 'CARDS',
+                    text: 'FLIP',
                     icon: const Icon(
                       Icons.style,
                       size: 35.0,
@@ -108,12 +108,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
                   child: FFButtonWidget(
-                    onPressed: () {
-                      print('Button pressed ...');
+                    onPressed: () async {
+                      context.pushNamed('ConnectionTestsList');
                     },
-                    text: 'TESTS',
+                    text: 'CONNECT',
                     icon: const Icon(
-                      Icons.check_circle_sharp,
+                      Icons.route_outlined,
                       size: 35.0,
                     ),
                     options: FFButtonOptions(
@@ -143,8 +143,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 20.0, 0.0),
                   child: FFButtonWidget(
-                    onPressed: () {
-                      print('Button pressed ...');
+                    onPressed: () async {
+                      context.pushNamed('StudyTestsList');
                     },
                     text: 'STUDY',
                     icon: const Icon(

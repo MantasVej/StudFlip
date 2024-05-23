@@ -4,11 +4,11 @@ import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
-import 'cards_test_component_model.dart';
-export 'cards_test_component_model.dart';
+import 'connection_test_component_model.dart';
+export 'connection_test_component_model.dart';
 
-class CardsTestComponentWidget extends StatefulWidget {
-  const CardsTestComponentWidget({
+class ConnectionTestComponentWidget extends StatefulWidget {
+  const ConnectionTestComponentWidget({
     super.key,
     String? topic,
     int? numberOfCards,
@@ -23,12 +23,13 @@ class CardsTestComponentWidget extends StatefulWidget {
   final Future Function()? onDelete;
 
   @override
-  State<CardsTestComponentWidget> createState() =>
-      _CardsTestComponentWidgetState();
+  State<ConnectionTestComponentWidget> createState() =>
+      _ConnectionTestComponentWidgetState();
 }
 
-class _CardsTestComponentWidgetState extends State<CardsTestComponentWidget> {
-  late CardsTestComponentModel _model;
+class _ConnectionTestComponentWidgetState
+    extends State<ConnectionTestComponentWidget> {
+  late ConnectionTestComponentModel _model;
 
   @override
   void setState(VoidCallback callback) {
@@ -39,7 +40,7 @@ class _CardsTestComponentWidgetState extends State<CardsTestComponentWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => CardsTestComponentModel());
+    _model = createModel(context, () => ConnectionTestComponentModel());
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
@@ -161,7 +162,7 @@ class _CardsTestComponentWidgetState extends State<CardsTestComponentWidget> {
                           ),
                           onPressed: () async {
                             context.pushNamed(
-                              'CardsTest',
+                              'ConnectionTest',
                               queryParameters: {
                                 'test': serializeParam(
                                   FFAppState().cardsTests[widget.index!],

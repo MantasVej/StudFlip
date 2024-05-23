@@ -17,12 +17,14 @@ class CardComponentModel extends FlutterFlowModel<CardComponentWidget> {
 
   // State field(s) for CardQuestionField widget.
   FocusNode? cardQuestionFieldFocusNode;
-  TextEditingController? cardQuestionFieldController;
-  String? Function(BuildContext, String?)? cardQuestionFieldControllerValidator;
+  TextEditingController? cardQuestionFieldTextController;
+  String? Function(BuildContext, String?)?
+      cardQuestionFieldTextControllerValidator;
   // State field(s) for CardAnswerField widget.
   FocusNode? cardAnswerFieldFocusNode;
-  TextEditingController? cardAnswerFieldController;
-  String? Function(BuildContext, String?)? cardAnswerFieldControllerValidator;
+  TextEditingController? cardAnswerFieldTextController;
+  String? Function(BuildContext, String?)?
+      cardAnswerFieldTextControllerValidator;
   // Model for EditButton.
   late CircleButtonComponentModel editButtonModel;
   // Model for UpdateButton.
@@ -38,10 +40,10 @@ class CardComponentModel extends FlutterFlowModel<CardComponentWidget> {
   @override
   void dispose() {
     cardQuestionFieldFocusNode?.dispose();
-    cardQuestionFieldController?.dispose();
+    cardQuestionFieldTextController?.dispose();
 
     cardAnswerFieldFocusNode?.dispose();
-    cardAnswerFieldController?.dispose();
+    cardAnswerFieldTextController?.dispose();
 
     editButtonModel.dispose();
     updateButtonModel.dispose();

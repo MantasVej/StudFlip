@@ -27,21 +27,7 @@ class _CircleButtonComponentWidgetState
     extends State<CircleButtonComponentWidget> with TickerProviderStateMixin {
   late CircleButtonComponentModel _model;
 
-  final animationsMap = {
-    'containerOnActionTriggerAnimation': AnimationInfo(
-      trigger: AnimationTrigger.onActionTrigger,
-      applyInitialState: true,
-      effects: [
-        ScaleEffect(
-          curve: Curves.easeInOut,
-          delay: 0.ms,
-          duration: 300.ms,
-          begin: const Offset(1.0, 1.0),
-          end: const Offset(1.1, 1.1),
-        ),
-      ],
-    ),
-  };
+  final animationsMap = <String, AnimationInfo>{};
 
   @override
   void setState(VoidCallback callback) {
@@ -54,6 +40,21 @@ class _CircleButtonComponentWidgetState
     super.initState();
     _model = createModel(context, () => CircleButtonComponentModel());
 
+    animationsMap.addAll({
+      'containerOnActionTriggerAnimation': AnimationInfo(
+        trigger: AnimationTrigger.onActionTrigger,
+        applyInitialState: true,
+        effectsBuilder: () => [
+          ScaleEffect(
+            curve: Curves.easeInOut,
+            delay: 0.0.ms,
+            duration: 300.0.ms,
+            begin: const Offset(1.0, 1.0),
+            end: const Offset(1.1, 1.1),
+          ),
+        ],
+      ),
+    });
     setupAnimations(
       animationsMap.values.where((anim) =>
           anim.trigger == AnimationTrigger.onActionTrigger ||

@@ -46,11 +46,11 @@ class _CardComponentWidgetState extends State<CardComponentWidget> {
       });
     });
 
-    _model.cardQuestionFieldController ??=
+    _model.cardQuestionFieldTextController ??=
         TextEditingController(text: _model.card?.question);
     _model.cardQuestionFieldFocusNode ??= FocusNode();
 
-    _model.cardAnswerFieldController ??=
+    _model.cardAnswerFieldTextController ??=
         TextEditingController(text: _model.card?.answer);
     _model.cardAnswerFieldFocusNode ??= FocusNode();
   }
@@ -136,7 +136,7 @@ class _CardComponentWidgetState extends State<CardComponentWidget> {
                                                   0.0, 4.0, 0.0, 0.0),
                                           child: TextFormField(
                                             controller: _model
-                                                .cardQuestionFieldController,
+                                                .cardQuestionFieldTextController,
                                             focusNode: _model
                                                 .cardQuestionFieldFocusNode,
                                             onFieldSubmitted: (_) async {
@@ -144,7 +144,7 @@ class _CardComponentWidgetState extends State<CardComponentWidget> {
                                                 _model.updateCardStruct(
                                                   (e) => e
                                                     ..question = _model
-                                                        .cardQuestionFieldController
+                                                        .cardQuestionFieldTextController
                                                         .text,
                                                 );
                                               });
@@ -197,7 +197,7 @@ class _CardComponentWidgetState extends State<CardComponentWidget> {
                                                 ),
                                             maxLines: null,
                                             validator: _model
-                                                .cardQuestionFieldControllerValidator
+                                                .cardQuestionFieldTextControllerValidator
                                                 .asValidator(context),
                                           ),
                                         ),
@@ -248,14 +248,16 @@ class _CardComponentWidgetState extends State<CardComponentWidget> {
                                 padding: const EdgeInsetsDirectional.fromSTEB(
                                     0.0, 4.0, 0.0, 0.0),
                                 child: TextFormField(
-                                  controller: _model.cardAnswerFieldController,
+                                  controller:
+                                      _model.cardAnswerFieldTextController,
                                   focusNode: _model.cardAnswerFieldFocusNode,
                                   onFieldSubmitted: (_) async {
                                     setState(() {
                                       _model.updateCardStruct(
                                         (e) => e
                                           ..answer = _model
-                                              .cardAnswerFieldController.text,
+                                              .cardAnswerFieldTextController
+                                              .text,
                                       );
                                     });
                                     setState(() {
@@ -304,7 +306,7 @@ class _CardComponentWidgetState extends State<CardComponentWidget> {
                                       ),
                                   maxLines: null,
                                   validator: _model
-                                      .cardAnswerFieldControllerValidator
+                                      .cardAnswerFieldTextControllerValidator
                                       .asValidator(context),
                                 ),
                               ),
@@ -332,7 +334,7 @@ class _CardComponentWidgetState extends State<CardComponentWidget> {
                                     highlightColor: Colors.transparent,
                                     onTap: () async {
                                       setState(() {
-                                        _model.cardQuestionFieldController
+                                        _model.cardQuestionFieldTextController
                                             ?.text = widget.card!.question;
                                       });
                                       setState(() {
@@ -360,10 +362,11 @@ class _CardComponentWidgetState extends State<CardComponentWidget> {
                                         _model.updateCardStruct(
                                           (e) => e
                                             ..question = _model
-                                                .cardQuestionFieldController
+                                                .cardQuestionFieldTextController
                                                 .text
                                             ..answer = _model
-                                                .cardAnswerFieldController.text,
+                                                .cardAnswerFieldTextController
+                                                .text,
                                         );
                                       });
                                       setState(() {

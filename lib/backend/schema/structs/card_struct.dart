@@ -9,10 +9,8 @@ class CardStruct extends BaseStruct {
   CardStruct({
     String? question,
     String? answer,
-    String? image,
   })  : _question = question,
-        _answer = answer,
-        _image = image;
+        _answer = answer;
 
   // "question" field.
   String? _question;
@@ -26,16 +24,9 @@ class CardStruct extends BaseStruct {
   set answer(String? val) => _answer = val;
   bool hasAnswer() => _answer != null;
 
-  // "image" field.
-  String? _image;
-  String get image => _image ?? '';
-  set image(String? val) => _image = val;
-  bool hasImage() => _image != null;
-
   static CardStruct fromMap(Map<String, dynamic> data) => CardStruct(
         question: data['question'] as String?,
         answer: data['answer'] as String?,
-        image: data['image'] as String?,
       );
 
   static CardStruct? maybeFromMap(dynamic data) =>
@@ -44,7 +35,6 @@ class CardStruct extends BaseStruct {
   Map<String, dynamic> toMap() => {
         'question': _question,
         'answer': _answer,
-        'image': _image,
       }.withoutNulls;
 
   @override
@@ -55,10 +45,6 @@ class CardStruct extends BaseStruct {
         ),
         'answer': serializeParam(
           _answer,
-          ParamType.String,
-        ),
-        'image': serializeParam(
-          _image,
           ParamType.String,
         ),
       }.withoutNulls;
@@ -75,11 +61,6 @@ class CardStruct extends BaseStruct {
           ParamType.String,
           false,
         ),
-        image: deserializeParam(
-          data['image'],
-          ParamType.String,
-          false,
-        ),
       );
 
   @override
@@ -89,21 +70,18 @@ class CardStruct extends BaseStruct {
   bool operator ==(Object other) {
     return other is CardStruct &&
         question == other.question &&
-        answer == other.answer &&
-        image == other.image;
+        answer == other.answer;
   }
 
   @override
-  int get hashCode => const ListEquality().hash([question, answer, image]);
+  int get hashCode => const ListEquality().hash([question, answer]);
 }
 
 CardStruct createCardStruct({
   String? question,
   String? answer,
-  String? image,
 }) =>
     CardStruct(
       question: question,
       answer: answer,
-      image: image,
     );

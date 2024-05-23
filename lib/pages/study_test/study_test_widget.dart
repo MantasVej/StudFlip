@@ -1,37 +1,48 @@
 import '/backend/schema/structs/index.dart';
-import '/components/cards_test_card_widget.dart';
-import '/components/results_cards_widget.dart';
+import '/components/study_test_card_widget.dart';
+import '/components/test_select_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_timer.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/custom_code/actions/index.dart' as actions;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart'
     as smooth_page_indicator;
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:flutter/material.dart';
-import 'cards_test_model.dart';
-export 'cards_test_model.dart';
+import 'package:flutter/scheduler.dart';
+import 'study_test_model.dart';
+export 'study_test_model.dart';
 
-class CardsTestWidget extends StatefulWidget {
-  const CardsTestWidget({
+class StudyTestWidget extends StatefulWidget {
+  const StudyTestWidget({
     super.key,
     required this.test,
+    required this.time,
   });
 
   final CardsTestStruct? test;
+  final int? time;
 
   @override
-  State<CardsTestWidget> createState() => _CardsTestWidgetState();
+  State<StudyTestWidget> createState() => _StudyTestWidgetState();
 }
 
-class _CardsTestWidgetState extends State<CardsTestWidget> {
-  late CardsTestModel _model;
+class _StudyTestWidgetState extends State<StudyTestWidget> {
+  late StudyTestModel _model;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => CardsTestModel());
+    _model = createModel(context, () => StudyTestModel());
+
+    // On page load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.timerController.onStartTimer();
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {}));
   }
 
   @override
@@ -63,7 +74,7 @@ class _CardsTestWidgetState extends State<CardsTestWidget> {
               size: 35.0,
             ),
             onPressed: () async {
-              context.pushNamed('CardTestsList');
+              context.pushNamed('StudyTestsList');
             },
           ),
           title: Align(
@@ -90,6 +101,57 @@ class _CardsTestWidgetState extends State<CardsTestWidget> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 50.0, 0.0, 0.0),
+                child: Container(
+                  decoration: const BoxDecoration(),
+                  child: FlutterFlowTimer(
+                    initialTime: widget.time!,
+                    getDisplayTime: (value) => StopWatchTimer.getDisplayTime(
+                      value,
+                      hours: false,
+                      milliSecond: false,
+                    ),
+                    controller: _model.timerController,
+                    updateStateInterval: const Duration(milliseconds: 1000),
+                    onChanged: (value, displayTime, shouldUpdate) {
+                      _model.timerMilliseconds = value;
+                      _model.timerValue = displayTime;
+                      if (shouldUpdate) setState(() {});
+                    },
+                    onEnded: () async {
+                      await showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        enableDrag: false,
+                        context: context,
+                        builder: (context) {
+                          return GestureDetector(
+                            onTap: () => _model.unfocusNode.canRequestFocus
+                                ? FocusScope.of(context)
+                                    .requestFocus(_model.unfocusNode)
+                                : FocusScope.of(context).unfocus(),
+                            child: Padding(
+                              padding: MediaQuery.viewInsetsOf(context),
+                              child: TestSelectWidget(
+                                test: widget.test!,
+                              ),
+                            ),
+                          );
+                        },
+                      ).then((value) => safeSetState(() {}));
+                    },
+                    textAlign: TextAlign.start,
+                    style: FlutterFlowTheme.of(context).headlineSmall.override(
+                          fontFamily: 'Outfit',
+                          color: FlutterFlowTheme.of(context).success,
+                          fontSize: 40.0,
+                          letterSpacing: 0.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                ),
+              ),
               Expanded(
                 child: Container(
                   width: double.infinity,
@@ -107,7 +169,6 @@ class _CardsTestWidgetState extends State<CardsTestWidget> {
                               padding: const EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 40.0),
                               child: PageView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
                                 controller: _model.pageViewController ??=
                                     PageController(
                                         initialPage:
@@ -118,66 +179,11 @@ class _CardsTestWidgetState extends State<CardsTestWidget> {
                                   final cardsItem = cards[cardsIndex];
                                   return Align(
                                     alignment: const AlignmentDirectional(0.0, 0.0),
-                                    child: CardsTestCardWidget(
+                                    child: StudyTestCardWidget(
                                       key: Key(
-                                          'Key653_${cardsIndex}_of_${cards.length}'),
-                                      card: cardsItem,
+                                          'Keyp03_${cardsIndex}_of_${cards.length}'),
                                       index: cardsIndex,
-                                      lastCard: widget.test!.cards.last,
-                                      correct: () async {
-                                        _model.insertAtIndexInQuiz(
-                                            cardsIndex, 1);
-                                        await _model.pageViewController
-                                            ?.nextPage(
-                                          duration: const Duration(milliseconds: 300),
-                                          curve: Curves.ease,
-                                        );
-                                      },
-                                      incorrect: () async {
-                                        _model.insertAtIndexInQuiz(
-                                            cardsIndex, 0);
-                                        await _model.pageViewController
-                                            ?.nextPage(
-                                          duration: const Duration(milliseconds: 300),
-                                          curve: Curves.ease,
-                                        );
-                                      },
-                                      finished: () async {
-                                        _model.correct =
-                                            await actions.newCustomAction2(
-                                          _model.quiz.toList(),
-                                        );
-                                        await showModalBottomSheet(
-                                          isScrollControlled: true,
-                                          backgroundColor: Colors.transparent,
-                                          enableDrag: false,
-                                          context: context,
-                                          builder: (context) {
-                                            return GestureDetector(
-                                              onTap: () => _model.unfocusNode
-                                                      .canRequestFocus
-                                                  ? FocusScope.of(context)
-                                                      .requestFocus(
-                                                          _model.unfocusNode)
-                                                  : FocusScope.of(context)
-                                                      .unfocus(),
-                                              child: Padding(
-                                                padding:
-                                                    MediaQuery.viewInsetsOf(
-                                                        context),
-                                                child: ResultsCardsWidget(
-                                                  correct: _model.correct!,
-                                                  total:
-                                                      widget.test!.cards.length,
-                                                  restart: () async {},
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        ).then((value) => safeSetState(() {}));
-
-                                        setState(() {});
-                                      },
+                                      card: cardsItem,
                                     ),
                                   );
                                 },

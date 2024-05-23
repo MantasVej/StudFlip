@@ -8,10 +8,9 @@ import 'package:flutter/material.dart';
 // Begin custom action code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
-Future<int> newCustomAction2(List<int> questions) async {
-  int sum = 0;
-  for (int i = 0; i < questions.length; i++) {
-    sum += questions[i];
-  }
-  return sum;
+Future newCustomAction3(List<CardStruct> questions) async {
+  // shuffle the provided list
+  List<CardStruct> shuffledQuestions = List.from(questions);
+  shuffledQuestions.shuffle();
+  return shuffledQuestions;
 }

@@ -1,14 +1,15 @@
+import '/components/timer_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
-import 'cards_test_component_model.dart';
-export 'cards_test_component_model.dart';
+import 'study_test_component_model.dart';
+export 'study_test_component_model.dart';
 
-class CardsTestComponentWidget extends StatefulWidget {
-  const CardsTestComponentWidget({
+class StudyTestComponentWidget extends StatefulWidget {
+  const StudyTestComponentWidget({
     super.key,
     String? topic,
     int? numberOfCards,
@@ -23,12 +24,12 @@ class CardsTestComponentWidget extends StatefulWidget {
   final Future Function()? onDelete;
 
   @override
-  State<CardsTestComponentWidget> createState() =>
-      _CardsTestComponentWidgetState();
+  State<StudyTestComponentWidget> createState() =>
+      _StudyTestComponentWidgetState();
 }
 
-class _CardsTestComponentWidgetState extends State<CardsTestComponentWidget> {
-  late CardsTestComponentModel _model;
+class _StudyTestComponentWidgetState extends State<StudyTestComponentWidget> {
+  late StudyTestComponentModel _model;
 
   @override
   void setState(VoidCallback callback) {
@@ -39,7 +40,7 @@ class _CardsTestComponentWidgetState extends State<CardsTestComponentWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => CardsTestComponentModel());
+    _model = createModel(context, () => StudyTestComponentModel());
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
@@ -160,12 +161,30 @@ class _CardsTestComponentWidgetState extends State<CardsTestComponentWidget> {
                             size: 55.0,
                           ),
                           onPressed: () async {
+                            await showModalBottomSheet(
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              enableDrag: false,
+                              context: context,
+                              builder: (context) {
+                                return Padding(
+                                  padding: MediaQuery.viewInsetsOf(context),
+                                  child: const TimerWidget(),
+                                );
+                              },
+                            ).then((value) =>
+                                safeSetState(() => _model.time = value));
+
                             context.pushNamed(
-                              'CardsTest',
+                              'StudyTest',
                               queryParameters: {
                                 'test': serializeParam(
                                   FFAppState().cardsTests[widget.index!],
                                   ParamType.DataStruct,
+                                ),
+                                'time': serializeParam(
+                                  _model.time,
+                                  ParamType.int,
                                 ),
                               }.withoutNulls,
                               extra: <String, dynamic>{
@@ -177,6 +196,8 @@ class _CardsTestComponentWidgetState extends State<CardsTestComponentWidget> {
                                 ),
                               },
                             );
+
+                            setState(() {});
                           },
                         ),
                       ),

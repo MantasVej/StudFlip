@@ -300,71 +300,58 @@ class _CardsTestCreateWidgetState extends State<CardsTestCreateWidget> {
                 thickness: 3.0,
                 color: Color(0xFF0C8077),
               ),
-              Align(
-                alignment: const AlignmentDirectional(0.0, 1.0),
-                child: Container(
-                  width: double.infinity,
-                  height: 80.0,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.rectangle,
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      FFButtonWidget(
-                        onPressed: () async {
-                          if (widget.update == true) {
-                            setState(() {
-                              FFAppState().updateCardsTestsAtIndex(
-                                widget.index!,
-                                (e) => e
-                                  ..topic = _model.textController.text
-                                  ..cards = FFAppState().cards.toList(),
-                              );
-                            });
-                          } else {
-                            FFAppState().addToCardsTests(CardsTestStruct(
-                              topic: _model.textController.text,
-                              cards: FFAppState().cards,
-                            ));
-                          }
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
+                child: FFButtonWidget(
+                  onPressed: () async {
+                    if (widget.update == true) {
+                      setState(() {
+                        FFAppState().updateCardsTestsAtIndex(
+                          widget.index!,
+                          (e) => e
+                            ..topic = _model.textController.text
+                            ..cards = FFAppState().cards.toList(),
+                        );
+                      });
+                    } else {
+                      FFAppState().addToCardsTests(CardsTestStruct(
+                        topic: _model.textController.text,
+                        cards: FFAppState().cards,
+                      ));
+                    }
 
-                          FFAppState().cards = [];
+                    FFAppState().cards = [];
 
-                          context.goNamed(
-                            'CardTestsList',
-                            extra: <String, dynamic>{
-                              kTransitionInfoKey: const TransitionInfo(
-                                hasTransition: true,
-                                transitionType: PageTransitionType.leftToRight,
-                                duration: Duration(milliseconds: 400),
-                              ),
-                            },
-                          );
-                        },
-                        text: 'DONE',
-                        options: FFButtonOptions(
-                          height: 40.0,
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              24.0, 0.0, 24.0, 0.0),
-                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          color: const Color(0xFF0C8077),
-                          textStyle:
-                              FlutterFlowTheme.of(context).titleMedium.override(
-                                    fontFamily: 'Rubik',
-                                    letterSpacing: 0.0,
-                                  ),
-                          elevation: 3.0,
-                          borderSide: const BorderSide(
-                            color: Colors.transparent,
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.circular(8.0),
+                    context.goNamed(
+                      'CardTestsList',
+                      extra: <String, dynamic>{
+                        kTransitionInfoKey: const TransitionInfo(
+                          hasTransition: true,
+                          transitionType: PageTransitionType.leftToRight,
+                          duration: Duration(milliseconds: 400),
                         ),
-                      ),
-                    ],
+                      },
+                    );
+                  },
+                  text: 'DONE',
+                  options: FFButtonOptions(
+                    height: 40.0,
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(24.0, 0.0, 24.0, 0.0),
+                    iconPadding:
+                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                    color: const Color(0xFF0C8077),
+                    textStyle:
+                        FlutterFlowTheme.of(context).titleMedium.override(
+                              fontFamily: 'Rubik',
+                              letterSpacing: 0.0,
+                            ),
+                    elevation: 3.0,
+                    borderSide: const BorderSide(
+                      color: Colors.transparent,
+                      width: 1.0,
+                    ),
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                 ),
               ),
